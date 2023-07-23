@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://csclhudb2nd7u"
+path="res://.godot/imported/arbolito.obj-0e2cda4adc95f08d71dc5c3a2f2a1232.mesh"
+
+[deps]
+
+files=["res://.godot/imported/arbolito.obj-0e2cda4adc95f08d71dc5c3a2f2a1232.mesh"]
+
+source_file="res://arbolito.obj"
+dest_files=["res://.godot/imported/arbolito.obj-0e2cda4adc95f08d71dc5c3a2f2a1232.mesh", "res://.godot/imported/arbolito.obj-0e2cda4adc95f08d71dc5c3a2f2a1232.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

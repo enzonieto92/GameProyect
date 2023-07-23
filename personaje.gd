@@ -1,8 +1,8 @@
 extends CharacterBody3D
 
-@export var salto := 20.0
-@export var gravity := 90.0
-@export var speed := 10
+@export var salto = 15.0
+@export var gravity  = 90.0
+@export var speed = 4
 @onready var camera_arm = get_node("Arm")
 
 var state_machine = $AnimationTree.get("parameters/playback")
@@ -16,9 +16,8 @@ func _physics_process(delta: float) -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	var is_jumping := is_on_floor() and Input.is_key_pressed(KEY_SPACE)
 	var rotated_direction = direction.rotated(Vector3.UP, angle2)
-
+	speed = 4
 	direction = Vector3.ZERO
-	speed = 5
 
 	if Input.is_key_pressed(KEY_A):
 		direction.x = -1
@@ -35,15 +34,14 @@ func _physics_process(delta: float) -> void:
 	velocity.z = rotated_direction.z * speed
 	velocity.y -= gravity * delta
 
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
-		
-		rotate(Vector3.UP, angle_x)
+	rotate(Vector3.UP, angle_x)
+
 	if direction != Vector3.ZERO:
 		camera_arm.top_level = true
 		rotation.y = atan2(-rotated_direction.x, -rotated_direction.z)
 		camera_arm.top_level = false
-	angle2 += angle_x
 	move_and_slide()
+	angle2 += angle_x
 	angle_x = 0.0
 
 	if is_jumping:
@@ -61,14 +59,16 @@ func _physics_process(delta: float) -> void:
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
+
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 			angle_x = event.relative.x * -0.002
 			camera_arm.rotation.x += event.relative.y * -0.002
-			if camera_arm.rotation.x >= 1:
-				camera_arm.rotation.x = 1
-			elif camera_arm.rotation.x <= -1:
-				camera_arm.rotation.x = -1
-			print (camera_arm.rotation)
+			if camera_arm.rotation.x >= 0.8:
+				camera_arm.rotation.x = 0.8
+			elif camera_arm.rotation.x <= -0.8:
+				camera_arm.rotation.x = -0.8
+
+
 	if event is InputEventKey:
 		if event.pressed && event.keycode == KEY_ESCAPE:
 			get_tree().quit()
