@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-@export var salto = 15.0
+@export var salto = 17.0
 @export var gravity  = 90.0
 @export var speed = 4
 @onready var camera_arm = get_node("Arm")
@@ -13,6 +13,7 @@ var angle_x := 0.0
 var angle2 := 0.0
 var last_rotation = Vector3.ZERO
 var rotated_direction := Vector3.ZERO
+
 func _physics_process(delta: float) -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	var is_jumping := is_on_floor() and Input.is_key_pressed(KEY_SPACE)
@@ -29,20 +30,21 @@ func _physics_process(delta: float) -> void:
 		direction.z = 1
 	if Input.is_key_pressed(KEY_SHIFT):
 		speed = 10
-	rotated_direction = direction.rotated(Vector3.UP, angle2)
 
+	rotated_direction = direction.rotated(Vector3.UP, angle2)
 	velocity.x = rotated_direction.x * speed
 	velocity.z = rotated_direction.z * speed
 	velocity.y -= gravity * delta
-
 	rotate(Vector3.UP, angle_x)
+
 	camera_arm.top_level = true
 	if direction == Vector3.ZERO:
 		rotation = last_rotation
 	else:
-		rotation.y = lerp_angle(rotation.y, atan2(-rotated_direction.x, -rotated_direction.z), 0.1)
+		rotation.y = lerp_angle(rotation.y, atan2(-rotated_direction.x, -rotated_direction.z), 0.2)
 		last_rotation = rotation
 	camera_arm.top_level = false
+
 	move_and_slide()
 	angle2 += angle_x
 	angle_x = 0.0
@@ -52,7 +54,9 @@ func _physics_process(delta: float) -> void:
 	elif just_landed:
 		_snap_vector = Vector3.DOWN
 
-	if speed > 9 && direction != Vector3.ZERO:
+	if velocity.y > 0 && _snap_vector == Vector3.UP:
+		state_machine.travel("Jump")
+	elif speed > 9 && direction != Vector3.ZERO:
 		state_machine.travel("Run")
 	elif direction != Vector3.ZERO:
 		state_machine.travel("Walk")
