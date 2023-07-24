@@ -28,7 +28,7 @@ func _physics_process(delta: float) -> void:
 	elif Input.is_key_pressed(KEY_S):
 		direction.z = 1
 	if Input.is_key_pressed(KEY_SHIFT):
-		speed = 15
+		speed = 10
 	rotated_direction = direction.rotated(Vector3.UP, angle2)
 
 	velocity.x = rotated_direction.x * speed
@@ -40,7 +40,7 @@ func _physics_process(delta: float) -> void:
 	if direction == Vector3.ZERO:
 		rotation = last_rotation
 	else:
-		rotation.y = atan2(-rotated_direction.x, -rotated_direction.z)
+		rotation.y = lerp_angle(rotation.y, atan2(-rotated_direction.x, -rotated_direction.z), 0.1)
 		last_rotation = rotation
 	camera_arm.top_level = false
 	move_and_slide()
@@ -52,7 +52,7 @@ func _physics_process(delta: float) -> void:
 	elif just_landed:
 		_snap_vector = Vector3.DOWN
 
-	if speed > 10 && direction != Vector3.ZERO:
+	if speed > 9 && direction != Vector3.ZERO:
 		state_machine.travel("Run")
 	elif direction != Vector3.ZERO:
 		state_machine.travel("Walk")
@@ -78,3 +78,4 @@ func _unhandled_input(event):
 			camera_arm.spring_length = lerp(camera_arm.spring_length, 3.0, 0.1)
 		if event.pressed && event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			camera_arm.spring_length = lerp(camera_arm.spring_length, 15.0, 0.1)
+
