@@ -1,13 +1,11 @@
 extends CharacterBody3D
 
-@export var salto = 17.0
+@export var salto = 30
 @export var gravity  = 90.0
 @export var speed = 4
 @onready var camera_arm = get_node("Arm")
-
 var state_machine = $AnimationTree.get("parameters/playback")
 var _snap_vector := Vector3.DOWN
-var just_landed := is_on_floor() and _snap_vector == Vector3.DOWN
 var direction := Vector3.ZERO
 var angle_x := 0.0
 var angle2 := 0.0
@@ -15,8 +13,9 @@ var last_rotation = Vector3.ZERO
 var rotated_direction := Vector3.ZERO
 
 func _physics_process(delta: float) -> void:
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	var just_landed := is_on_floor() and _snap_vector == Vector3.UP
 	var is_jumping := is_on_floor() and Input.is_key_pressed(KEY_SPACE)
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	speed = 4
 	direction = Vector3.ZERO
 	
@@ -44,19 +43,19 @@ func _physics_process(delta: float) -> void:
 		rotation.y = lerp_angle(rotation.y, atan2(-rotated_direction.x, -rotated_direction.z), 0.2)
 		last_rotation = rotation
 	camera_arm.top_level = false
-
 	move_and_slide()
 	angle2 += angle_x
 	angle_x = 0.0
 	if is_jumping:
-		velocity.y += salto
+		$Jump.play()
+		velocity.y = salto
 		_snap_vector = Vector3.UP
 	elif just_landed:
 		_snap_vector = Vector3.DOWN
 
 	if velocity.y > 0 && _snap_vector == Vector3.UP:
 		state_machine.travel("Jump")
-	elif speed > 9 && direction != Vector3.ZERO:
+	elif speed > 9 && direction != Vector3.ZERO && _snap_vector == Vector3.DOWN:
 		state_machine.travel("Run")
 	elif direction != Vector3.ZERO:
 		state_machine.travel("Walk")

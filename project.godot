@@ -14,7 +14,3 @@ config/name="Nuevo Proyecto De Juego"
 run/main_scene="res://mundo.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
-
-[display]
-
-window/size/mode=3

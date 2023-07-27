@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://ci8yrptmo6xmp"]
+[gd_scene load_steps=8 format=3 uid="uid://ci8yrptmo6xmp"]
 
 [ext_resource type="PackedScene" uid="uid://ci0atmrpuaqn1" path="res://personaje.tscn" id="1_urv1k"]
 [ext_resource type="Script" path="res://personaje.gd" id="2_eggw4"]
@@ -16,18 +16,15 @@ process_mode = 1
 [sub_resource type="Environment" id="Environment_tgr3g"]
 background_mode = 2
 sky = SubResource("Sky_b08d6")
+sky_custom_fov = 37.9
 ambient_light_source = 3
-ambient_light_color = Color(0.247059, 0.247059, 0.247059, 1)
-reflected_light_source = 2
-
-[sub_resource type="BoxMesh" id="BoxMesh_rrvm7"]
-size = Vector3(11.57, 4.23, 1)
+ambient_light_color = Color(1, 1, 1, 1)
 
 [node name="Mundo" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 153.417, 0)
 
 [node name="Personaje" parent="." instance=ExtResource("1_urv1k")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.9246, -100.808, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.4394, -105.14, 22.746)
 rotation_order = 0
 script = ExtResource("2_eggw4")
 
@@ -41,10 +38,11 @@ environment = SubResource("Environment_tgr3g")
 near = 0.07
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.359639, 0.933092, 0, -0.933092, 0.359639, 0, 48.5513, 49.9505)
-light_energy = 3.0
-light_angular_distance = 9.43
+transform = Transform3D(1, 0, 0, 0, -0.664487, 0.7473, 0, -0.7473, -0.664487, 0.0318451, -52.0521, 50.0151)
+light_energy = 1.5
+light_bake_mode = 1
 shadow_enabled = true
+shadow_bias = 0.504
 shadow_transmittance_bias = -8.031
 shadow_opacity = 0.5
 shadow_blur = 0.3
@@ -56,6 +54,7 @@ mesh = ExtResource("3_g35ju")
 
 [node name="Trees" type="CSGMesh3D" parent="."]
 transform = Transform3D(1.105, 0, 0, 0, 1.105, 0, 0, 0, 1.105, 30.457, -109.773, 0)
+calculate_tangents = false
 use_collision = true
 mesh = ExtResource("4_2nu3n")
 
@@ -83,7 +82,31 @@ mesh = ExtResource("4_2nu3n")
 transform = Transform3D(0.840827, 0, 0.991469, 0, 1.3, 0, -0.991469, 0, 0.840827, -10.7953, 0.373844, 47.3039)
 mesh = ExtResource("4_2nu3n")
 
-[node name="CSGMesh3D2" type="CSGMesh3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.2389, -107.14, 0)
+[node name="Trees2" type="CSGMesh3D" parent="Trees"]
+transform = Transform3D(0.731673, 0, 1.08929, 0, 1.31222, 0, -1.08929, 0, 0.731673, -4.45457, -2.20723, 73.7689)
 use_collision = true
-mesh = SubResource("BoxMesh_rrvm7")
+mesh = ExtResource("4_2nu3n")
+
+[node name="CSGMesh3D2" type="CSGMesh3D" parent="Trees/Trees2"]
+transform = Transform3D(1.145, 0, 0, 0, 1.145, 0, 0, 0, 1.145, 10.0028, 1.37347, 14.4493)
+mesh = ExtResource("4_2nu3n")
+
+[node name="CSGMesh3D3" type="CSGMesh3D" parent="Trees/Trees2"]
+transform = Transform3D(-0.398054, 0, -0.587923, 0, 0.71, 0, 0.587923, 0, -0.398054, 16.7847, 1.37347, -0.171637)
+mesh = ExtResource("4_2nu3n")
+
+[node name="CSGMesh3D4" type="CSGMesh3D" parent="Trees/Trees2"]
+transform = Transform3D(2.345, 0, 0, 0, 2.345, 0, 0, 0, 2.345, 1.00686, 1.37347, 28.8436)
+mesh = ExtResource("4_2nu3n")
+
+[node name="CSGMesh3D5" type="CSGMesh3D" parent="Trees/Trees2"]
+transform = Transform3D(-0.277516, 0, 0.40989, 0, 0.495, 0, -0.40989, 0, -0.277516, 20.3581, 1.37347, 24.1357)
+mesh = ExtResource("4_2nu3n")
+
+[node name="CSGMesh3D6" type="CSGMesh3D" parent="Trees/Trees2"]
+transform = Transform3D(0.46793, 0, -0.883766, 0, 1, 0, 0.883766, 0, 0.46793, 8.11637, 1.37347, 43.307)
+mesh = ExtResource("4_2nu3n")
+
+[node name="CSGMesh3D7" type="CSGMesh3D" parent="Trees/Trees2"]
+transform = Transform3D(0.840827, 0, 0.991469, 0, 1.3, 0, -0.991469, 0, 0.840827, -10.7953, 0.373844, 47.3039)
+mesh = ExtResource("4_2nu3n")
