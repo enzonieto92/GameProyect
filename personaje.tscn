@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://ci0atmrpuaqn1"]
+[gd_scene load_steps=38 format=3 uid="uid://ci0atmrpuaqn1"]
 
 [ext_resource type="AudioStream" uid="uid://ctw30y6q8s6ru" path="res://Jump.mp3" id="1_25edh"]
 [ext_resource type="AudioStream" uid="uid://ccc41hv83aukc" path="res://Step.mp3" id="1_veci4"]
@@ -7,7 +7,10 @@
 resource_name = "Skin"
 cull_mode = 2
 vertex_color_use_as_albedo = true
-albedo_color = Color(0.31428, 0.306123, 0.559991, 1)
+albedo_color = Color(0.752941, 0.639216, 0.619608, 1)
+metallic_specular = 0.61
+roughness = 0.44
+emission = Color(1, 1, 1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cqycd"]
 resource_name = "Horns"
@@ -372,10 +375,26 @@ tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/keys = PackedFloat32Array(0, 1, 0.0278708, -0.0320712, -0.754126, 0.655354)
 
+[sub_resource type="Animation" id="Animation_ygc88"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Dust:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="Animation" id="Animation_uhhkp"]
 resource_name = "Run"
 length = 0.708333
 loop_mode = 1
+step = 0.0055
 tracks/0/type = "position_3d"
 tracks/0/imported = true
 tracks/0/enabled = true
@@ -525,9 +544,21 @@ tracks/19/keys = {
 "start_offset": 0.0,
 "stream": ExtResource("1_veci4")
 }],
-"times": PackedFloat32Array(0.1, 0.5)
+"times": PackedFloat32Array(0.099, 0.473)
 }
 tracks/19/use_blend = true
+tracks/20/type = "value"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("Dust:emitting")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = {
+"times": PackedFloat32Array(0.1375, 0.5115),
+"transitions": PackedFloat32Array(1, 0.482969),
+"update": 1,
+"values": [true, true]
+}
 
 [sub_resource type="Animation" id="Animation_7ea53"]
 resource_name = "Walk"
@@ -671,6 +702,7 @@ tracks/18/keys = PackedFloat32Array(0, 1, 0.0278708, -0.0320712, -0.754126, 0.65
 _data = {
 "Idle": SubResource("Animation_tjih2"),
 "Jump": SubResource("Animation_3ltxh"),
+"RESET": SubResource("Animation_ygc88"),
 "Run": SubResource("Animation_uhhkp"),
 "Walk": SubResource("Animation_7ea53")
 }
@@ -752,10 +784,34 @@ states/Walk/position = Vector2(531, 186)
 transitions = ["Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_fic1i"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_krxun"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_gw182"), "Idle", "Jump", SubResource("AnimationNodeStateMachineTransition_3d2au"), "Walk", "Jump", SubResource("AnimationNodeStateMachineTransition_u716a"), "Jump", "Idle", SubResource("AnimationNodeStateMachineTransition_mx5vm"), "Jump", "Walk", SubResource("AnimationNodeStateMachineTransition_b0obr"), "Idle", "Run", SubResource("AnimationNodeStateMachineTransition_0lnd5"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_whhi4"), "Run", "Walk", SubResource("AnimationNodeStateMachineTransition_nrhvq"), "Walk", "Run", SubResource("AnimationNodeStateMachineTransition_sipc6"), "Run", "Jump", SubResource("AnimationNodeStateMachineTransition_rrx2t"), "Jump", "Run", SubResource("AnimationNodeStateMachineTransition_jibyx")]
 graph_offset = Vector2(-49, -11.8655)
 
-[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_psksy"]
+[sub_resource type="Curve" id="Curve_lnokc"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.519481, 0.610526), -2.08421, -2.08421, 0, 0, Vector2(1, 0.210526), 0.0, 0.0, 0, 0]
+point_count = 3
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_1r6dr"]
-points = PackedVector3Array(-0.745841, 1.21813, 0.0553597, -0.727589, 1.22729, -0.0334363, -0.717514, 1.06723, -0.0267614, -0.543757, -0.369796, -0.291262, -0.723501, 1.04749, 0.0405266, -0.505648, -0.362392, 0.0609558, -0.696488, 1.04819, 0.105455, -0.701161, 1.20297, 0.133233, -0.602309, 1.72934, 0.149684, -0.636184, 1.73427, 0.0904196, -0.383872, 3.20585, 0.0284579, -0.47002, -0.30281, -0.388351, -0.511926, -0.317265, -0.356459, -0.543757, -0.329604, -0.306836, -0.360655, 3.19704, -0.0172548, -0.355399, 3.20761, -0.0229858, -0.179744, 2.91393, -0.272451, -0.512802, -0.365918, -0.327198, -0.352333, -0.386719, -0.19424, -0.392048, -0.388834, 0.0383691, -0.42534, -0.384956, 0.0159173, -0.440379, -0.38284, 0.0637875, -0.476883, -0.377552, 0.043763, -0.508568, -0.36486, 0.0242777, -0.530762, -0.366975, -0.169226, -0.481701, -0.368386, 0.0830031, -0.45279, -0.372264, 0.104444, -0.419499, -0.373674, 0.11449, -0.613114, 1.1864, 0.149684, -0.0603039, 2.86316, 0.291542, -0.149665, 2.85999, 0.27354, -0.151125, 2.95659, 0.256482, -0.382265, 3.21184, 0.0296715, -0.413805, -0.291175, -0.396981, -0.420521, -0.359219, -0.369135, -0.472502, -0.359572, -0.360033, -0.0268666, 2.72179, -0.387474, 0, 2.72496, -0.39725, -0.342988, 3.2122, -0.0173897, 0, 3.09938, -0.23321, -0.0695028, 3.09233, -0.228019, -0.0765115, 2.91111, -0.3274, 0.512656, -0.365918, -0.327198, 0.352186, -0.386719, -0.19424, 0.391902, -0.388834, 0.0383691, -0.406504, -0.384956, 0.0799016, -0.390004, -0.372616, 0.119277, 0.0601579, 2.86316, 0.291542, -0.060888, 2.96717, 0.272731, -0.133311, 1.30768, 0.209354, -0.150103, 3.0747, 0.189599, -0.375987, 3.2129, 0.0317616, 0.413658, -0.291175, -0.396981, -0.357881, -0.298579, -0.395228, 0.420375, -0.359219, -0.369135, 0, 2.90195, -0.331918, 0.0763655, 2.91111, -0.3274, 0.0267206, 2.72179, -0.387474, 0.469874, -0.30281, -0.388351, 0.342842, 3.2122, -0.0173897, 0.355253, 3.20761, -0.0229858, 0.0693568, 3.09233, -0.228019, 0.543611, -0.369796, -0.291262, 0.472356, -0.359572, -0.360033, 0.51178, -0.317265, -0.356459, 0.425194, -0.384956, 0.0159173, 0.440233, -0.38284, 0.0637875, 0.406358, -0.384956, 0.0799016, 0.389858, -0.372616, 0.119277, 0.149519, 2.85999, 0.27354, 0.150979, 2.95659, 0.256482, 0.060742, 2.96717, 0.272731, 0.133165, 1.30768, 0.209354, 0.612968, 1.1864, 0.149684, 0.701015, 1.20297, 0.133233, 0, 3.09021, 0.197824, -0.0604499, 3.08633, 0.19297, 0.375841, 3.2129, 0.0317616, 0.357735, -0.298579, -0.395228, 0.179598, 2.91393, -0.272451, 0.727443, 1.22729, -0.0334363, 0.382119, 3.21184, 0.0296715, 0.383726, 3.20585, 0.0284579, 0.360509, 3.19704, -0.0172548, 0.530616, -0.366975, -0.169226, 0.508422, -0.36486, 0.0242777, 0.476737, -0.377552, 0.043763, 0.543611, -0.329604, -0.306836, 0.717368, 1.06723, -0.0267614, 0.745841, 1.21813, 0.0553597, 0.723355, 1.04749, 0.0405266, 0.452644, -0.372264, 0.104444, 0.419353, -0.373674, 0.11449, 0.602163, 1.72934, 0.149684, 0.149957, 3.0747, 0.189599, 0.0603039, 3.08633, 0.19297, 0.481555, -0.368386, 0.0830031, 0.505502, -0.362392, 0.0609558, 0.696342, 1.04819, 0.105455, 0.636038, 1.73427, 0.0904196)
+[sub_resource type="CurveTexture" id="CurveTexture_lgqq3"]
+curve = SubResource("Curve_lnokc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_iuguy"]
+emission_shape = 1
+emission_sphere_radius = 0.3
+direction = Vector3(0, 0, 0)
+spread = 0.15
+gravity = Vector3(0, 0.355, 1.84)
+initial_velocity_min = 0.5
+initial_velocity_max = 3.0
+scale_min = 0.3
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_lgqq3")
+color = Color(0.490196, 0.490196, 0.490196, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_2smck"]
+radius = 0.6
+height = 1.155
+radial_segments = 63
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tb8mv"]
+radius = 0.686868
+height = 3.77319
 
 [node name="Personaje" type="CharacterBody3D"]
 
@@ -766,7 +822,7 @@ bones/0/name = "TorsoBajo"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.16075, 0)
 bones/0/enabled = true
-bones/0/position = Vector3(0, 1.18142, 0)
+bones/0/position = Vector3(0, 1.17845, 0)
 bones/0/rotation = Quaternion(0, 0, 0, 1)
 bones/0/scale = Vector3(1, 1, 1)
 bones/1/name = "TorsoAlto"
@@ -781,7 +837,7 @@ bones/2/parent = 1
 bones/2/rest = Transform3D(-0.139469, -0.986651, 0.0840721, 0.990227, -0.138965, 0.011841, 1.63913e-07, 0.0849019, 0.996389, 0, 0.66114, 0)
 bones/2/enabled = true
 bones/2/position = Vector3(0, 0.66114, 0)
-bones/2/rotation = Quaternion(0.0439106, 0.0135948, 0.754685, 0.654475)
+bones/2/rotation = Quaternion(0.0413637, 0.0165311, 0.754627, 0.654641)
 bones/2/scale = Vector3(1, 1, 1)
 bones/3/name = "L.Brazo1"
 bones/3/parent = 2
@@ -802,7 +858,7 @@ bones/5/parent = 1
 bones/5/rest = Transform3D(-0.139469, 0.986651, -0.0840721, -0.990227, -0.138965, 0.011841, -1.63913e-07, 0.0849019, 0.996389, 0, 0.66114, 0)
 bones/5/enabled = true
 bones/5/position = Vector3(0, 0.66114, 0)
-bones/5/rotation = Quaternion(0.0439106, -0.0135948, -0.754685, 0.654475)
+bones/5/rotation = Quaternion(0.0413637, -0.0165311, -0.754627, 0.654641)
 bones/5/scale = Vector3(1, 1, 1)
 bones/6/name = "R.Brazo1"
 bones/6/parent = 5
@@ -822,14 +878,14 @@ bones/8/name = "Bone"
 bones/8/parent = 1
 bones/8/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02409, 0)
 bones/8/enabled = true
-bones/8/position = Vector3(0, 1.05875, 0)
-bones/8/rotation = Quaternion(0.0313184, 0, 0, 0.999509)
+bones/8/position = Vector3(0, 1.05288, 0)
+bones/8/rotation = Quaternion(0.0264614, 0, 0, 0.99965)
 bones/8/scale = Vector3(1, 1, 1)
 bones/9/name = "L.Cadera"
 bones/9/parent = -1
 bones/9/rest = Transform3D(0, -0.974858, 0.222825, -2.98023e-08, 0.222825, 0.974859, -1, -2.98023e-08, 0, 0, 1.16075, 0)
 bones/9/enabled = true
-bones/9/position = Vector3(-7.09503e-09, 1.17606, -1.97583e-10)
+bones/9/position = Vector3(2.50465e-09, 1.17377, -6.53838e-10)
 bones/9/rotation = Quaternion(-0.440788, 0.552907, 0.440788, 0.552907)
 bones/9/scale = Vector3(1, 1, 1)
 bones/10/name = "L.Pierna1"
@@ -837,20 +893,20 @@ bones/10/parent = 9
 bones/10/rest = Transform3D(0.975543, 0.219801, 0.00161491, -0.009253, 0.033725, 0.999388, 0.219612, -0.974962, 0.034934, -7.99361e-15, 0.188386, 1.2666e-07)
 bones/10/enabled = true
 bones/10/position = Vector3(-7.99361e-15, 0.188386, 1.2666e-07)
-bones/10/rotation = Quaternion(-0.692459, -0.0565904, -0.0682289, 0.715991)
+bones/10/rotation = Quaternion(-0.692193, -0.0594174, -0.0699386, 0.715854)
 bones/10/scale = Vector3(1, 1, 1)
 bones/11/name = "L.Pierna2"
 bones/11/parent = 10
 bones/11/rest = Transform3D(0.91422, -0.403632, -0.0358216, 0.404123, 0.901682, 0.153802, -0.0297796, -0.155085, 0.987452, 1.67638e-08, 0.566414, 4.87635e-08)
 bones/11/enabled = true
 bones/11/position = Vector3(1.67638e-08, 0.566414, 4.87635e-08)
-bones/11/rotation = Quaternion(-0.0789485, -0.0101231, 0.160845, 0.983765)
+bones/11/rotation = Quaternion(-0.0790043, -0.00862606, 0.168956, 0.982414)
 bones/11/scale = Vector3(1, 1, 1)
 bones/12/name = "R.Cadera"
 bones/12/parent = -1
 bones/12/rest = Transform3D(0, 0.974858, -0.222825, 2.98023e-08, 0.222825, 0.974859, 1, -2.98023e-08, 0, 0, 1.16075, 0)
 bones/12/enabled = true
-bones/12/position = Vector3(7.09503e-09, 1.17606, -1.97583e-10)
+bones/12/position = Vector3(-2.50465e-09, 1.17377, -6.53838e-10)
 bones/12/rotation = Quaternion(-0.440788, -0.552907, -0.440788, 0.552907)
 bones/12/scale = Vector3(1, 1, 1)
 bones/13/name = "R.Pierna1"
@@ -858,14 +914,14 @@ bones/13/parent = 12
 bones/13/rest = Transform3D(0.975543, -0.219801, -0.00161491, 0.009253, 0.033725, 0.999388, -0.219612, -0.974962, 0.034934, 7.99361e-15, 0.188386, 1.2666e-07)
 bones/13/enabled = true
 bones/13/position = Vector3(7.99361e-15, 0.188386, 1.2666e-07)
-bones/13/rotation = Quaternion(-0.692459, 0.0565904, 0.0682289, 0.715991)
+bones/13/rotation = Quaternion(-0.692193, 0.0594174, 0.0699386, 0.715854)
 bones/13/scale = Vector3(1, 1, 1)
 bones/14/name = "R.Pierna2"
 bones/14/parent = 13
 bones/14/rest = Transform3D(0.91422, 0.403632, 0.0358216, -0.404123, 0.901682, 0.153802, 0.0297796, -0.155085, 0.987452, -1.67638e-08, 0.566414, 4.87635e-08)
 bones/14/enabled = true
 bones/14/position = Vector3(-1.67638e-08, 0.566414, 4.87635e-08)
-bones/14/rotation = Quaternion(-0.0789485, 0.0101231, -0.160845, 0.983765)
+bones/14/rotation = Quaternion(-0.0790043, 0.00862606, -0.168956, 0.982414)
 bones/14/scale = Vector3(1, 1, 1)
 
 [node name="Vert" type="MeshInstance3D" parent="Esqueleto/Skeleton3D"]
@@ -885,14 +941,25 @@ parameters/Run/TimeScale/scale = 1.5
 
 [node name="Jump" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("1_25edh")
-volume_db = -30.0
+volume_db = -20.0
 max_db = 0.3
 pitch_scale = 0.5
 
 [node name="Run" type="AudioStreamPlayer" parent="."]
-stream = SubResource("AudioStreamPolyphonic_psksy")
-volume_db = -40.0
+volume_db = -30.0
 pitch_scale = 0.01
 
+[node name="Dust" type="GPUParticles3D" parent="."]
+transform = Transform3D(0.00591664, -0.999982, 0, 0.999982, 0.00591664, 0, 0, 0, 1, 0.0145559, -0.0878976, 1.35811)
+amount = 11
+lifetime = 0.3
+one_shot = true
+speed_scale = 2.0
+visibility_aabb = AABB(-1.14288, -1.06134, -1.97873, 2.28576, 2.12268, 3.95747)
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_iuguy")
+draw_pass_1 = SubResource("SphereMesh_2smck")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("ConvexPolygonShape3D_1r6dr")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000173733, 1.39568, 0.00265026)
+shape = SubResource("CapsuleShape3D_tb8mv")

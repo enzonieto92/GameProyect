@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
 @export var salto = 30
-@export var gravity  = 90.0
+@export var gravity  = 80.0
 @export var speed = 4
 @onready var camera_arm = get_node("Arm")
 var state_machine = $AnimationTree.get("parameters/playback")
@@ -11,12 +11,10 @@ var angle_x := 0.0
 var angle2 := 0.0
 var last_rotation = Vector3.ZERO
 var rotated_direction := Vector3.ZERO
-
 func _physics_process(delta: float) -> void:
 	var just_landed := is_on_floor() and _snap_vector == Vector3.UP
 	var is_jumping := is_on_floor() and Input.is_key_pressed(KEY_SPACE)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	speed = 4
 	direction = Vector3.ZERO
 	
 	if Input.is_key_pressed(KEY_A):
@@ -27,8 +25,11 @@ func _physics_process(delta: float) -> void:
 		direction.z = -1
 	elif Input.is_key_pressed(KEY_S):
 		direction.z = 1
-	if Input.is_key_pressed(KEY_SHIFT):
-		speed = 10
+	if Input.is_action_pressed("Run"):
+		speed = 15
+	elif Input.is_action_just_released("Run"):
+		speed = 4
+
 
 	rotated_direction = direction.rotated(Vector3.UP, angle2)
 	velocity.x = rotated_direction.x * speed
