@@ -1,8 +1,8 @@
 extends CharacterBody3D
 
-@export var salto = 30
+@export var salto = 40
 @export var gravity  = 80.0
-@export var speed = 4
+@export var speed = 3
 @onready var camera_arm = get_node("Arm")
 var state_machine = $AnimationTree.get("parameters/playback")
 var _snap_vector := Vector3.DOWN
@@ -26,15 +26,19 @@ func _physics_process(delta: float) -> void:
 	elif Input.is_key_pressed(KEY_S):
 		direction.z = 1
 	if Input.is_action_pressed("Run"):
-		speed = 15
+		if (_snap_vector == Vector3.DOWN):
+			speed = 13
+
 	elif Input.is_action_just_released("Run"):
-		speed = 4
+		if (_snap_vector == Vector3.DOWN):
+			speed = 4
 
 
-	rotated_direction = direction.rotated(Vector3.UP, angle2)
+	rotated_direction = direction.rotated(Vector3.UP, angle2).normalized()
 	velocity.x = rotated_direction.x * speed
 	velocity.z = rotated_direction.z * speed
 	velocity.y -= gravity * delta
+	
 	rotate(Vector3.UP, angle_x)
 
 	camera_arm.top_level = true
@@ -53,6 +57,7 @@ func _physics_process(delta: float) -> void:
 		_snap_vector = Vector3.UP
 	elif just_landed:
 		_snap_vector = Vector3.DOWN
+		speed = 4
 
 	if velocity.y > 0 && _snap_vector == Vector3.UP:
 		state_machine.travel("Jump")
@@ -61,7 +66,7 @@ func _physics_process(delta: float) -> void:
 	elif direction != Vector3.ZERO:
 		state_machine.travel("Walk")
 	else:
-		state_machine.travel("Idle")
+		state_machine.travel("Idle2")
 	
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
@@ -82,4 +87,7 @@ func _unhandled_input(event):
 			camera_arm.spring_length = lerp(camera_arm.spring_length, 3.0, 0.1)
 		if event.pressed && event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			camera_arm.spring_length = lerp(camera_arm.spring_length, 15.0, 0.1)
+		if event.pressed && event.button_index == MOUSE_BUTTON_MIDDLE:
+			$AnimationPlayer.play("Ball")
+			print("Ball")
 

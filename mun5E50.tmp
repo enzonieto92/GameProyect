@@ -1,0 +1,77 @@
+[gd_scene load_steps=12 format=3 uid="uid://buf124b678ts3"]
+
+[ext_resource type="PackedScene" uid="uid://ci0atmrpuaqn1" path="res://personaje.tscn" id="1_urv1k"]
+[ext_resource type="Script" path="res://personaje.gd" id="2_eggw4"]
+[ext_resource type="AudioStream" uid="uid://b8wug5npcaf46" path="res://Jaxomy_Agatino_Romero_Raffaella_Carr_-_Pedro_@BaseNaija.mp3" id="3_52c7q"]
+[ext_resource type="PackedScene" uid="uid://fsn4so1vprkc" path="res://coin.tscn" id="4_615cu"]
+[ext_resource type="Script" path="res://coin.gd" id="5_u3vod"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_rrqxs"]
+turbidity = 90.46
+ground_color = Color(0.380392, 0.298039, 0.2, 1)
+
+[sub_resource type="Sky" id="Sky_b08d6"]
+sky_material = SubResource("PhysicalSkyMaterial_rrqxs")
+process_mode = 1
+
+[sub_resource type="Environment" id="Environment_tgr3g"]
+background_mode = 2
+sky = SubResource("Sky_b08d6")
+sky_custom_fov = 37.9
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_reiy5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wcspq"]
+albedo_color = Color(0.123874, 0.271525, 0.252123, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6l5fq"]
+
+[node name="Mundo" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 153.417, 0)
+
+[node name="Personaje" parent="." instance=ExtResource("1_urv1k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.396083, 0.459076, -0.300711)
+rotation_order = 0
+script = ExtResource("2_eggw4")
+
+[node name="Arm" type="SpringArm3D" parent="Personaje"]
+transform = Transform3D(1, 0, 0, 0, 0.900918, 0.433989, 0, -0.433989, 0.900918, -0.000411987, 2.07164, 0.069397)
+spring_length = 10.0
+
+[node name="Camera" type="Camera3D" parent="Personaje/Arm"]
+transform = Transform3D(1, 0, 0, 0, 1, -1.78814e-07, 0, 1.78814e-07, 1, 2.78528, -0.808445, 4.37646)
+environment = SubResource("Environment_tgr3g")
+fov = 45.0
+near = 0.5
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.664487, 0.7473, 0, -0.7473, -0.664487, 0.0318451, -52.0521, 50.0151)
+light_energy = 1.5
+light_bake_mode = 1
+shadow_enabled = true
+shadow_bias = 0.504
+shadow_transmittance_bias = -8.031
+shadow_opacity = 0.5
+shadow_blur = 0.3
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_52c7q")
+autoplay = true
+mix_target = 1
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, -4, 0)
+use_collision = true
+mesh = SubResource("PlaneMesh_reiy5")
+material = SubResource("StandardMaterial3D_wcspq")
+
+[node name="CSGMesh3D2" type="CSGMesh3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 7.6044, -14.8213)
+use_collision = true
+mesh = SubResource("BoxMesh_6l5fq")
+
+[node name="Coin" parent="." instance=ExtResource("4_615cu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.3212, -1.6857, 0)
+script = ExtResource("5_u3vod")
